@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-
 import { getCacheTime } from '@/lib/config';
 import { fetchDoubanData } from '@/lib/douban';
 import { DoubanItem, DoubanResult } from '@/lib/types';
@@ -13,7 +12,6 @@ interface DoubanApiResponse {
   }>;
 }
 
-export const runtime = 'nodejs';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

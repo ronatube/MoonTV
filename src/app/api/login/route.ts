@@ -1,10 +1,8 @@
 /* eslint-disable no-console,@typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from 'next/server';
-
 import { getConfig } from '@/lib/config';
 import { db } from '@/lib/db';
 
-export const runtime = 'nodejs';
 
 // 读取存储类型环境变量，默认 localstorage
 const STORAGE_TYPE =

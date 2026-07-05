@@ -1,10 +1,8 @@
 /* eslint-disable no-console,@typescript-eslint/no-explicit-any */
 
 import { NextResponse } from "next/server";
-
 import { getConfig } from "@/lib/config";
 
-export const runtime = 'nodejs';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

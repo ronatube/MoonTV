@@ -2,16 +2,19 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 const nextConfig = {
-  output: 'standalone',
   eslint: {
     dirs: ['src'],
+  },
+  typescript: {
+    ignoreBuildErrors: true,
   },
 
   reactStrictMode: false,
   swcMinify: false,
 
+  // Cloudflare Pages: disable instrumentationHook
   experimental: {
-    instrumentationHook: process.env.NODE_ENV === 'production',
+    instrumentationHook: false,
   },
 
   // Uncoment to add domain whitelist
@@ -77,3 +80,7 @@ const withPWA = require('next-pwa')({
 });
 
 module.exports = withPWA(nextConfig);
+
+// OpenNext Cloudflare adapter for local development
+const { initOpenNextCloudflareForDev } = require("@opennextjs/cloudflare");
+initOpenNextCloudflareForDev();

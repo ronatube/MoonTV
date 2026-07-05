@@ -433,7 +433,7 @@ const UserConfig = ({ config, role, refreshConfig }: UserConfigProps) => {
         });
 
         if (!res.ok) {
-          const data = await res.json().catch(() => ({}));
+          const data = await res.json().catch(() => ({})) as { error?: string };
           throw new Error(data.error || `操作失败: ${res.status}`);
         }
 
@@ -511,7 +511,7 @@ const UserConfig = ({ config, role, refreshConfig }: UserConfigProps) => {
         });
 
         if (!res.ok) {
-          const data = await res.json().catch(() => ({}));
+          const data = await res.json().catch(() => ({})) as { error?: string };
           throw new Error(data.error || `操作失败: ${res.status}`);
         }
 
@@ -653,7 +653,7 @@ const UserConfig = ({ config, role, refreshConfig }: UserConfigProps) => {
         });
 
         if (!res.ok) {
-          const data = await res.json().catch(() => ({}));
+          const data = await res.json().catch(() => ({})) as { error?: string };
           throw new Error(data.error || `操作失败: ${res.status}`);
         }
 
@@ -701,7 +701,7 @@ const UserConfig = ({ config, role, refreshConfig }: UserConfigProps) => {
         });
 
         if (!res.ok) {
-          const data = await res.json().catch(() => ({}));
+          const data = await res.json().catch(() => ({})) as { error?: string };
           throw new Error(data.error || `操作失败: ${res.status}`);
         }
 
@@ -744,8 +744,8 @@ const UserConfig = ({ config, role, refreshConfig }: UserConfigProps) => {
       });
 
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.error || `操作失败: ${res.status}`);
+        const data = await res.json().catch(() => ({})) as { error?: string };
+                 throw new Error(data.error || `操作失败: ${res.status}`);
       }
 
       // 成功后刷新配置（无需整页刷新）
@@ -2113,7 +2113,7 @@ const VideoSourceConfig = ({
       });
 
       if (!resp.ok) {
-        const data = await resp.json().catch(() => ({}));
+        const data = await resp.json().catch(() => ({})) as { error?: string };
         throw new Error(data.error || `操作失败: ${resp.status}`);
       }
 
@@ -2851,7 +2851,7 @@ const CategoryConfig = ({
       });
 
       if (!resp.ok) {
-        const data = await resp.json().catch(() => ({}));
+        const data = await resp.json().catch(() => ({})) as { error?: string };
         throw new Error(data.error || `操作失败: ${resp.status}`);
       }
 
@@ -3187,7 +3187,7 @@ const ConfigFileComponent = ({ config, refreshConfig }: { config: AdminConfig | 
         });
 
         if (!resp.ok) {
-          const data = await resp.json().catch(() => ({}));
+          const data = await resp.json().catch(() => ({})) as { error?: string };
           throw new Error(data.error || `拉取失败: ${resp.status}`);
         }
 
@@ -3224,7 +3224,7 @@ const ConfigFileComponent = ({ config, refreshConfig }: { config: AdminConfig | 
         });
 
         if (!resp.ok) {
-          const data = await resp.json().catch(() => ({}));
+          const data = await resp.json().catch(() => ({})) as { error?: string };
           throw new Error(data.error || `保存失败: ${resp.status}`);
         }
 
@@ -3524,7 +3524,7 @@ const SiteConfigComponent = ({ config, refreshConfig }: { config: AdminConfig | 
         });
 
         if (!resp.ok) {
-          const data = await resp.json().catch(() => ({}));
+          const data = await resp.json().catch(() => ({})) as { error?: string };
           throw new Error(data.error || `保存失败: ${resp.status}`);
         }
 
@@ -4032,7 +4032,7 @@ const LiveSourceConfig = ({
       });
 
       if (!resp.ok) {
-        const data = await resp.json().catch(() => ({}));
+        const data = await resp.json().catch(() => ({})) as { error?: string };
         throw new Error(data.error || `操作失败: ${resp.status}`);
       }
 
@@ -4072,7 +4072,7 @@ const LiveSourceConfig = ({
         });
 
         if (!response.ok) {
-          const data = await response.json().catch(() => ({}));
+          const data = await response.json().catch(() => ({})) as { error?: string };
           throw new Error(data.error || `刷新失败: ${response.status}`);
         }
 

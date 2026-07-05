@@ -1,0 +1,31 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": ".open-next/worker.js",
+  "name": "luna-tv",
+  "compatibility_date": "2026-07-03",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "luna-tv"
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "luna-tv-db",
+      "database_id": "c6031c4e-fe62-4994-a9f1-dd579cf54e0b"
+    }
+  ],
+  "vars": {
+    "NEXT_PUBLIC_STORAGE_TYPE": "d1",
+    "NEXT_PUBLIC_DOUBAN_PROXY_TYPE": "cmliussss-cdn-tencent",
+    "NEXT_PUBLIC_DISABLE_YELLOW_FILTER": "true"
+  }
+}

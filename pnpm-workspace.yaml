@@ -1,0 +1,6 @@
+ignoredBuiltDependencies:
+  - esbuild
+  - javascript-obfuscator
+  - sharp
+  - unrs-resolver
+  - workerd
