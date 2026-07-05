@@ -77,6 +77,13 @@ export async function GET(request: NextRequest) {
   }
 
   const baseUrl = `https://m.douban.com/rexxar/api/v2/${kind}/recommend`;
+  // 使用 CDN 代理访问豆瓣
+  const proxyType = process.env.NEXT_PUBLIC_DOUBAN_PROXY_TYPE || 'direct';
+  const proxyBaseUrl = proxyType === 'cmliussss-cdn-tencent'
+    ? baseUrl.replace('https://m.douban.com', 'https://m.douban.cmliussss.net')
+    : proxyType === 'cmliussss-cdn-ali'
+      ? baseUrl.replace('https://m.douban.com', 'https://m.douban.cmliussss.com')
+      : baseUrl;
   const params = new URLSearchParams();
   params.append('refresh', '0');
   params.append('start', pageStart.toString());
@@ -89,7 +96,7 @@ export async function GET(request: NextRequest) {
     params.append('sort', sort);
   }
 
-  const target = `${baseUrl}?${params.toString()}`;
+  const target = `${proxyBaseUrl}?${params.toString()}`;
   console.log(target);
   try {
     const doubanData = await fetchDoubanData<DoubanRecommendApiResponse>(

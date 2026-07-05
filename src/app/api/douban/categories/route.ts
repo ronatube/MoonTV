@@ -61,9 +61,17 @@ export async function GET(request: Request) {
 
   const target = `https://m.douban.com/rexxar/api/v2/subject/recent_hot/${kind}?start=${pageStart}&limit=${pageLimit}&category=${category}&type=${type}`;
 
+  // 使用 CDN 代理访问豆瓣（从 US VPS 直接访问豆瓣容易被封）
+  const proxyType = process.env.NEXT_PUBLIC_DOUBAN_PROXY_TYPE || 'direct';
+  const proxyTarget = proxyType === 'cmliussss-cdn-tencent'
+    ? target.replace('https://m.douban.com', 'https://m.douban.cmliussss.net')
+    : proxyType === 'cmliussss-cdn-ali'
+      ? target.replace('https://m.douban.com', 'https://m.douban.cmliussss.com')
+      : target;
+
   try {
     // 调用豆瓣 API
-    const doubanData = await fetchDoubanData<DoubanCategoryApiResponse>(target);
+    const doubanData = await fetchDoubanData<DoubanCategoryApiResponse>(proxyTarget);
 
     // 转换数据格式
     const list: DoubanItem[] = doubanData.items.map((item) => ({
