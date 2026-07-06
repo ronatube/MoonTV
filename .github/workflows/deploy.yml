@@ -27,8 +27,7 @@ jobs:
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10
+        # 版本号自动从 package.json 的 packageManager 字段读取
 
       - name: Get pnpm store directory
         shell: bash
