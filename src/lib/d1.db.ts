@@ -390,15 +390,18 @@ export class D1Storage implements IStorage {
         .run();
 
       // 保持历史记录条数限制
+      // SQLite 的 NOT IN 子查询中不能直接使用 LIMIT，需额外包装一层
       await db
         .prepare(
           `
           DELETE FROM search_history 
           WHERE username = ? AND id NOT IN (
-            SELECT id FROM search_history 
-            WHERE username = ? 
-            ORDER BY created_at DESC 
-            LIMIT ?
+            SELECT id FROM (
+              SELECT id FROM search_history 
+              WHERE username = ? 
+              ORDER BY created_at DESC 
+              LIMIT ?
+            )
           )
         `
         )
