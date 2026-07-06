@@ -50,7 +50,7 @@ jobs:
 
       - name: Deploy to Cloudflare Workers
         run: |
-          npx wrangler@4 deploy \
+          pnpm dlx wrangler@4 deploy \
             --var USERNAME:${{ secrets.MOONTV_USERNAME }} \
             --var PASSWORD:${{ secrets.MOONTV_PASSWORD }}
         env:
