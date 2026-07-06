@@ -50,8 +50,8 @@ jobs:
 
       - name: Deploy to Cloudflare Workers
         run: |
-          # opennextjs-cloudflare deploy 内部调 wrangler 时可能丢失环境变量
-          # 直接手动部署：用 wrangler deploy (不走 OpenNext 路径)
+          # wrangler 需要安装在项目中，才能使 opennextjs-cloudflare deploy 找到它
+          pnpm add -D wrangler@4 2>&1 | tail -5
           pnpm exec wrangler versions upload \
             --message "CI deployment $(date -u +%Y%m%d-%H%M%S)" 2>&1
         env:
