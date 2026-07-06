@@ -50,10 +50,26 @@ jobs:
 
       - name: Deploy to Cloudflare Workers
         run: |
-          # opennextjs-cloudflare deploy 内部会调 wrangler，需要在 PATH 中
-          # 用 pnpm 安装后通过 pnpm exec 运行，确保子进程能找到 wrangler
-          pnpm add -D wrangler@4 2>&1 | tail -5
-          pnpm exec opennextjs-cloudflare deploy
+          # opennextjs-cloudflare deploy 内部调 wrangler 时可能丢失环境变量
+          # 直接手动部署：用 wrangler deploy (不走 OpenNext 路径)
+          pnpm exec wrangler versions upload \
+            --message "CI deployment $(date -u +%Y%m%d-%H%M%S)" 2>&1
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_ACCOUNT_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: "4a50ebd27b5f627e14ec98fff3680762"
+
+      - name: Deploy version to production
+        run: |
+          VERSION_ID=$(pnpm exec wrangler versions list --json | python3 -c "import json,sys;d=json.load(sys.stdin);print(d[0]['id'])" 2>/dev/null || echo "")
+          if [ -n "$VERSION_ID" ]; then
+            echo "Deploying version $VERSION_ID to production"
+            pnpm exec wrangler versions deploy "$VERSION_ID" --message "Production deploy"
+          else
+            echo "No version found, trying direct deploy"
+            pnpm exec wrangler deploy \
+              --var USERNAME:${{ secrets.MOONTV_USERNAME }} \
+              --var PASSWORD:${{ secrets.MOONTV_PASSWORD }}
+          fi  
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_ACCOUNT_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: "4a50ebd27b5f627e14ec98fff3680762"
