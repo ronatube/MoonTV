@@ -395,9 +395,9 @@ export class D1Storage implements IStorage {
         .prepare(
           `
           DELETE FROM search_history 
-          WHERE username = ? AND id NOT IN (
-            SELECT id FROM (
-              SELECT id FROM search_history 
+          WHERE username = ? AND rowid NOT IN (
+            SELECT rowid FROM (
+              SELECT rowid FROM search_history 
               WHERE username = ? 
               ORDER BY created_at DESC 
               LIMIT ?
