@@ -50,14 +50,18 @@ jobs:
 
       - name: Deploy to Cloudflare Workers
         run: |
-          # wrangler 需要安装在项目中，才能使 opennextjs-cloudflare deploy 找到它
-          pnpm add -D wrangler@4 2>&1 | tail -5
-          pnpm exec wrangler versions upload \
-            --message "CI deployment $(date -u +%Y%m%d-%H%M%S)" 2>&1
+          # wrangler 需要在项目中
+          pnpm add -D wrangler@4 2>&1 | tail -3
+          # 先用简单命令验证认证
+          echo "=== 验证令牌 ==="
+          npx wrangler@4 d1 list 2>&1 | head -5
+          echo "=== 开始部署 ==="
+          npx wrangler@4 deploy \
+            --var USERNAME:${{ secrets.MOONTV_USERNAME }} \
+            --var PASSWORD:${{ secrets.MOONTV_PASSWORD }}
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_ACCOUNT_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: "4a50ebd27b5f627e14ec98fff3680762"
-
       - name: Deploy version to production
         run: |
           VERSION_ID=$(pnpm exec wrangler versions list --json | python3 -c "import json,sys;d=json.load(sys.stdin);print(d[0]['id'])" 2>/dev/null || echo "")
